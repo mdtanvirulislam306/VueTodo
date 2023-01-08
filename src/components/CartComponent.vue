@@ -25,8 +25,8 @@
                     <td>{{ ++index }}</td>
                     <td>{{ todo.title }}</td>
                     <td>
-                      <button class="btn btn-info mx-2">Edit</button>
-                      <button class="btn btn-danger">Delete</button>
+                      <button class="btn btn-info mx-2" @click="editTodo(todo.id)">Edit</button>
+                      <button class="btn btn-danger" @click="deleteTodo(todo.id)">Delete</button>
                     </td>
                   </tr>
                 </tbody>
@@ -39,7 +39,9 @@
   </div>
 </template>
 <script>
+import { v4 as uuidv4 } from 'uuid';
 export default {
+
   props: ["cartHeader"],
   data() {
     return {
@@ -49,14 +51,20 @@ export default {
   },
   methods: {
     addTodo(){
-        const todo = {
-            id:1,
+        const data = {
+            id:uuidv4(),
             title: this.todo,
             status: false
         }
-        this.todos = [...this.todos,todo]
+        this.todos = [...this.todos,data]
         this.todo = ''
-        console.log(this.todos);
+    },
+    editTodo(index){
+        const updatedData = this.todos.filter(item =>item.id==index)
+        
+    },
+    deleteTodo(index){
+        this.todos = this.todos.filter(item =>item.id!==index)
     }
   }
 };
